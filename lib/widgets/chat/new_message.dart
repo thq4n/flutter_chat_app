@@ -49,6 +49,7 @@ class _NewMessageState extends State<NewMessage> {
                     _inputText = value;
                   });
                 },
+                onSubmitted: (_) => _sendMessage(),
               ),
             ),
           ),
