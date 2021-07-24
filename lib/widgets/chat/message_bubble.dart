@@ -6,83 +6,81 @@ import 'package:flutter/material.dart';
 
 class MessageBubble extends StatelessWidget {
   final String message;
-  final String userId;
+  final String username;
+  final String image;
   final bool isMe;
-  const MessageBubble(this.message, this.isMe, this.userId, {Key? key})
+  const MessageBubble(this.message, this.isMe, this.username, this.image,
+      {Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<dynamic>(
-      future: FirebaseFirestore.instance.collection("users").doc(userId).get(),
-      builder: (ctx, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text("Waiting...");
-        }
-
-        return Container(
-          margin: EdgeInsets.only(top: 10),
-          child: Column(
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment:
+                isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment:
-                    isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+              if (!isMe)
+                CircleAvatar(
+                  backgroundImage: NetworkImage(image),
+                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (!isMe)
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(snapshot.data["image_url"]),
+                  Container(
+                    constraints: BoxConstraints(minWidth: 30, maxWidth: 200),
+                    decoration: BoxDecoration(
+                      color: isMe
+                          ? Colors.grey[300]
+                          : Theme.of(context).accentColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                        bottomLeft:
+                            !isMe ? Radius.circular(0) : Radius.circular(15),
+                        bottomRight:
+                            isMe ? Radius.circular(0) : Radius.circular(15),
+                      ),
                     ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 16,
+                    ),
+                    margin: EdgeInsets.symmetric(
+                      vertical: 4,
+                      horizontal: 8,
+                    ),
+                    child: Text(
+                      message,
+                      style: TextStyle(
+                          fontSize: 18,
                           color: isMe
-                              ? Colors.grey[300]
-                              : Theme.of(context).accentColor,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                            bottomLeft: !isMe
-                                ? Radius.circular(0)
-                                : Radius.circular(15),
-                            bottomRight:
-                                isMe ? Radius.circular(0) : Radius.circular(15),
-                          ),
-                        ),
-                        width: 140,
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 16,
-                        ),
-                        margin: EdgeInsets.symmetric(
-                          vertical: 4,
-                          horizontal: 8,
-                        ),
-                        child: Text(
-                          message,
-                          style: TextStyle(
-                              color: isMe
-                                  ? Colors.black
-                                  : Theme.of(context)
-                                      .accentTextTheme
-                                      .headline6!
-                                      .color),
+                              ? Colors.black
+                              : Theme.of(context)
+                                  .accentTextTheme
+                                  .headline6!
+                                  .color),
+                    ),
+                  ),
+                  if (!isMe)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        username,
+                        style: TextStyle(
+                          color: Colors.grey,
                         ),
                       ),
-                      if (!isMe)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(snapshot.data["username"]),
-                        )
-                    ],
-                  ),
+                    )
                 ],
               ),
             ],
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 }

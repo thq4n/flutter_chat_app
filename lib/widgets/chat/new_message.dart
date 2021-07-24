@@ -13,13 +13,19 @@ class _NewMessageState extends State<NewMessage> {
   final _inputController = TextEditingController();
   String? _inputText;
 
-  void _sendMessage() {
+  void _sendMessage() async {
     FocusScope.of(context).unfocus();
     final user = FirebaseAuth.instance.currentUser;
+    final userData = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get();
     FirebaseFirestore.instance.collection("chat").add({
       "text": _inputText!.trim(),
       "createdAt": Timestamp.now(),
-      "userId": user!.uid,
+      "userId": user.uid,
+      'username': userData.data()!['username'],
+      'userImage': userData.data()!['image_url'],
     });
 
     _inputController.clear();
@@ -34,11 +40,14 @@ class _NewMessageState extends State<NewMessage> {
           Expanded(
             child: Container(
               child: TextField(
+                keyboardType: TextInputType.multiline,
+                minLines: 1,
+                maxLines: 3,
                 controller: _inputController,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
-                        Radius.circular(50),
+                        Radius.circular(30),
                       ),
                       borderSide: BorderSide(color: Colors.teal),
                     ),
