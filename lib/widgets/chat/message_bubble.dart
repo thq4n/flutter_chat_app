@@ -1,7 +1,4 @@
-import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -16,7 +13,7 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: const EdgeInsets.only(top: 10),
       child: Column(
         children: [
           Row(
@@ -31,25 +28,25 @@ class MessageBubble extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    constraints: BoxConstraints(minWidth: 30, maxWidth: 200),
+                    constraints: const BoxConstraints(minWidth: 30, maxWidth: 200),
                     decoration: BoxDecoration(
                       color: isMe
                           ? Colors.grey[300]
                           : Theme.of(context).accentColor,
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15),
+                        topLeft: const Radius.circular(15),
+                        topRight: const Radius.circular(15),
                         bottomLeft:
-                            !isMe ? Radius.circular(0) : Radius.circular(15),
+                            !isMe ? const Radius.circular(0) : const Radius.circular(15),
                         bottomRight:
-                            isMe ? Radius.circular(0) : Radius.circular(15),
+                            isMe ? const Radius.circular(0) : const Radius.circular(15),
                       ),
                     ),
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 10,
                       horizontal: 16,
                     ),
-                    margin: EdgeInsets.symmetric(
+                    margin: const EdgeInsets.symmetric(
                       vertical: 4,
                       horizontal: 8,
                     ),
@@ -70,7 +67,7 @@ class MessageBubble extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
                         username,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.grey,
                         ),
                       ),

@@ -38,35 +38,33 @@ class _NewMessageState extends State<NewMessage> {
       child: Row(
         children: [
           Expanded(
-            child: Container(
-              child: TextField(
-                keyboardType: TextInputType.multiline,
-                minLines: 1,
-                maxLines: 3,
-                controller: _inputController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
-                      ),
-                      borderSide: BorderSide(color: Colors.teal),
+            child: TextField(
+              keyboardType: TextInputType.multiline,
+              minLines: 1,
+              maxLines: 3,
+              controller: _inputController,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30),
                     ),
-                    labelText: "Send a message ...",
-                    floatingLabelBehavior: FloatingLabelBehavior.never),
-                onChanged: (value) {
-                  setState(() {
-                    _inputText = value;
-                  });
-                },
-                onSubmitted: (_) => _sendMessage(),
-              ),
+                    borderSide: BorderSide(color: Colors.teal),
+                  ),
+                  labelText: "Send a message ...",
+                  floatingLabelBehavior: FloatingLabelBehavior.never),
+              onChanged: (value) {
+                setState(() {
+                  _inputText = value;
+                });
+              },
+              onSubmitted: (_) => _sendMessage(),
             ),
           ),
           IconButton(
             onPressed: (_inputText == null || _inputText!.isEmpty)
                 ? null
                 : _sendMessage,
-            icon: Icon(Icons.send),
+            icon: const Icon(Icons.send),
           ),
         ],
       ),
